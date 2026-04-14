@@ -1,86 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Título exibido na aba do navegador -->
     <title>To-Do List</title>
+
+    <!-- Arquivo de estilos externo -->
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
 
-    <!-- ==========================================
-         CONTAINER PRINCIPAL
-         Envolve toda a aplicação, centraliza o
-         conteúdo e limita a largura máxima na tela.
-    =========================================== -->
+    <!-- Container principal que centraliza todo o conteúdo -->
     <div class="container">
 
       <!-- Cabeçalho da aplicação -->
-      <header>
+      <header class="header">
         <h1>Minhas Tarefas</h1>
-        <p>Organize o que precisa ser feito</p>
+        <p class="subtitle">Organize o que precisa ser feito</p>
       </header>
 
       <!-- ==========================================
            SEÇÃO DE ADIÇÃO DE TAREFA
-           Agrupa o formulário de entrada de dados:
-           nome da tarefa, nível de prioridade e
-           o botão para confirmar a adição.
+           Agrupa: input de texto, select de prioridade
+           e o botão de confirmação.
       =========================================== -->
-      <section class="add-task-section" aria-label="Adicionar nova tarefa">
+      <section class="add-section" aria-label="Adicionar nova tarefa">
 
-        <!-- ----------------------------------------
-             INPUT DE TEXTO — Nome da tarefa
-             O usuário digita aqui a descrição
-             da tarefa que deseja adicionar.
-             - type="text" aceita qualquer texto
-             - placeholder orienta o usuário
-             - aria-label melhora acessibilidade
-        ----------------------------------------- -->
+        <!-- INPUT: campo de texto para nome da tarefa -->
         <input
           type="text"
           id="task-input"
           class="task-input"
           placeholder="Digite uma nova tarefa..."
-          aria-label="Nome da tarefa"
           maxlength="100"
+          aria-label="Nome da tarefa"
         />
 
-        <!-- ----------------------------------------
-             SELECT DE PRIORIDADE
-             Permite ao usuário classificar a tarefa
-             por nível de urgência/importância.
-             As opções vão de baixa a alta prioridade.
-        ----------------------------------------- -->
+        <!-- SELECT: nível de prioridade da tarefa -->
         <select
           id="priority-select"
           class="priority-select"
           aria-label="Nível de prioridade"
         >
-          <!-- Opção padrão (desabilitada) — orienta o usuário -->
           <option value="" disabled selected>Prioridade</option>
-
-          <!-- Prioridade baixa: tarefas sem urgência -->
-          <option value="baixa">🟢 Baixa</option>
-
-          <!-- Prioridade média: tarefas importantes, mas não urgentes -->
-          <option value="media">🟡 Média</option>
-
-          <!-- Prioridade alta: tarefas urgentes ou críticas -->
+          <!-- Alta: tarefas urgentes ou críticas -->
           <option value="alta">🔴 Alta</option>
+          <!-- Média: importantes mas não urgentes -->
+          <option value="media">🟡 Média</option>
+          <!-- Baixa: tarefas sem urgência -->
+          <option value="baixa">🟢 Baixa</option>
         </select>
 
-        <!-- ----------------------------------------
-             BOTÃO DE ADIÇÃO
-             Ao ser clicado, deve acionar a função
-             JavaScript responsável por ler os
-             valores do input e do select, criar
-             um novo item e inseri-lo na lista.
-             - type="button" evita recarregar a página
-        ----------------------------------------- -->
+        <!-- BOTÃO: confirma a adição da tarefa -->
         <button
           type="button"
           id="add-btn"
@@ -91,134 +63,48 @@
         </button>
 
       </section>
-      <!-- /add-task-section -->
 
-
-      <!-- ==========================================
-           FILTROS DE VISUALIZAÇÃO
-           Botões que permitem ao usuário filtrar
-           as tarefas exibidas na lista:
-           todas, pendentes ou concluídas.
-      =========================================== -->
+      <!-- Botões para filtrar tarefas por estado -->
       <nav class="filters" aria-label="Filtrar tarefas">
-
-        <!-- Exibe todas as tarefas (padrão ativo) -->
-        <button type="button" class="filter-btn active" data-filter="todas">
-          Todas
-        </button>
-
-        <!-- Exibe somente tarefas ainda não concluídas -->
-        <button type="button" class="filter-btn" data-filter="pendentes">
-          Pendentes
-        </button>
-
-        <!-- Exibe somente tarefas marcadas como concluídas -->
-        <button type="button" class="filter-btn" data-filter="concluidas">
-          Concluídas
-        </button>
-
+        <button type="button" class="filter-btn active" data-filter="todas">Todas</button>
+        <button type="button" class="filter-btn" data-filter="pendentes">Pendentes</button>
+        <button type="button" class="filter-btn" data-filter="concluidas">Concluídas</button>
       </nav>
-      <!-- /filters -->
-
 
       <!-- ==========================================
-           LISTA DE TAREFAS
-           Elemento <ul> que será populado
-           dinamicamente via JavaScript.
-           Cada tarefa adicionada gera um <li>
-           filho dentro deste elemento.
-           - role="list" reforça semântica para
-             leitores de tela
+           LISTA DE TAREFAS (ul)
+           Populada dinamicamente pelo JavaScript.
+           Cada <li> representa uma tarefa.
       =========================================== -->
-      <ul
-        id="task-list"
-        class="task-list"
-        role="list"
-        aria-label="Lista de tarefas"
-      >
+      <ul id="task-list" class="task-list" role="list" aria-label="Lista de tarefas">
 
-        <!-- ----------------------------------------
-             ITEM DE TAREFA (exemplo estático)
-             Em produção, estes <li> serão criados
-             pelo JavaScript. A estrutura de cada
-             item contém:
-               1. Checkbox para marcar conclusão
-               2. Texto da tarefa
-               3. Badge de prioridade
-               4. Botão para excluir
-        ----------------------------------------- -->
-        <li class="task-item" data-priority="alta" data-id="1">
-
-          <!-- Checkbox: marca a tarefa como concluída -->
-          <input
-            type="checkbox"
-            class="task-checkbox"
-            id="task-1"
-            aria-label="Marcar como concluída"
-          />
-
-          <!-- Texto descritivo da tarefa -->
-          <label for="task-1" class="task-text">
-            Exemplo: Entregar trabalho de TCC
-          </label>
-
-          <!-- Badge visual que indica o nível de prioridade -->
-          <span class="priority-badge priority-alta" aria-label="Prioridade alta">
-            🔴 Alta
-          </span>
-
-          <!-- Botão de exclusão: remove o item da lista -->
-          <button
-            type="button"
-            class="delete-btn"
-            aria-label="Excluir tarefa"
-          >
-            🗑
-          </button>
-
+        <!-- Exemplo estático de item — será gerado pelo JS em produção -->
+        <!-- Estrutura de cada item:
+               1. checkbox  → marca conclusão
+               2. label     → texto da tarefa
+               3. .badge    → nível de prioridade
+               4. .del-btn  → botão de excluir
+        -->
+        <li class="task-item" data-priority="alta">
+          <input type="checkbox" class="task-checkbox" id="task-ex" />
+          <label for="task-ex" class="task-label">Exemplo: Entregar TCC</label>
+          <span class="badge badge-alta">🔴 Alta</span>
+          <button type="button" class="del-btn" aria-label="Excluir tarefa">✕</button>
         </li>
-        <!-- /task-item -->
-
-        <!-- Mais itens serão inseridos aqui pelo JavaScript -->
 
       </ul>
-      <!-- /task-list -->
 
-
-      <!-- ==========================================
-           RODAPÉ / CONTADOR DE TAREFAS
-           Exibe um resumo dinâmico:
-           quantas tarefas estão pendentes e
-           um botão para limpar as já concluídas.
-      =========================================== -->
+      <!-- Rodapé: contador de pendentes + limpar concluídas -->
       <footer class="task-footer">
-
-        <!-- Contador atualizado pelo JavaScript -->
-        <span id="task-counter" class="task-counter">
-          1 tarefa pendente
-        </span>
-
-        <!-- Botão para remover todas as tarefas concluídas de uma vez -->
-        <button type="button" id="clear-btn" class="clear-btn">
-          Limpar concluídas
-        </button>
-
+        <span id="task-counter" class="counter">1 tarefa pendente</span>
+        <button type="button" id="clear-btn" class="clear-btn">Limpar concluídas</button>
       </footer>
-      <!-- /task-footer -->
 
     </div>
     <!-- /container -->
 
-
-    <!-- ==========================================
-         SCRIPT JAVASCRIPT (externo ou inline)
-         Aqui será linkado ou inserido o código JS
-         responsável por toda a interatividade:
-         adicionar, concluir, excluir e filtrar tarefas.
-         Colocado no final do <body> para garantir que
-         o HTML já foi carregado antes do script rodar.
-    =========================================== -->
-    <!-- <script src="script.js"></script> -->
+    <!-- Script JS linkado no final para garantir que o HTML foi carregado -->
+    <script src="script.js"></script>
 
   </body>
 </html>
