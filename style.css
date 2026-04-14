@@ -1,1 +1,419 @@
 
+/* ============================================================
+   RESET & BASE
+   Zera margens/paddings padrão do navegador e define
+   box-sizing para facilitar o cálculo de larguras.
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   VARIÁVEIS CSS (Custom Properties)
+   Centraliza cores e tokens de design para fácil manutenção.
+   Alterar aqui reflete em toda a aplicação.
+   ============================================================ */
+:root {
+  /* Cores de fundo */
+  --bg-page:      #f4f3ef;
+  --bg-card:      #ffffff;
+  --bg-input:     #ffffff;
+
+  /* Texto */
+  --text-primary:   #1c1c1a;
+  --text-secondary: #6b6b67;
+  --text-muted:     #a8a89f;
+
+  /* Bordas */
+  --border-default: #e0dfd8;
+  --border-focus:   #888780;
+
+  /* Prioridade — Alta (vermelho) */
+  --alta-border: #E24B4A;
+  --alta-bg:     #FCEBEB;
+  --alta-text:   #7a1f1f;
+
+  /* Prioridade — Média (âmbar) */
+  --media-border: #EF9F27;
+  --media-bg:     #FAEEDA;
+  --media-text:   #6b3b08;
+
+  /* Prioridade — Baixa (verde) */
+  --baixa-border: #639922;
+  --baixa-bg:     #EAF3DE;
+  --baixa-text:   #2e5410;
+
+  /* Botão de ação principal */
+  --btn-bg:       #1c1c1a;
+  --btn-text:     #ffffff;
+  --btn-hover:    #3a3a37;
+
+  /* Raios de borda */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Transições */
+  --transition: 0.2s ease;
+}
+
+/* ============================================================
+   BODY & TIPOGRAFIA BASE
+   Define fonte, cor de fundo e cor de texto padrão.
+   ============================================================ */
+body {
+  font-family: 'Georgia', serif;       /* serifa clássica para tom acadêmico */
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.5rem 1rem 4rem;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   CONTAINER PRINCIPAL
+   Limita largura, centraliza e cria o card da aplicação.
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: 580px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.5rem;
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+.header {
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 1rem;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   SEÇÃO DE ADIÇÃO — input + select + botão
+   Linha flexível que agrupa os três controles.
+   ============================================================ */
+.add-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+/* INPUT: campo de texto da tarefa */
+.task-input {
+  flex: 1;
+  min-width: 160px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.task-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Destaque ao focar no input */
+.task-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(136,135,128,0.15);
+}
+
+/* SELECT: nível de prioridade */
+.priority-select {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.priority-select:focus {
+  border-color: var(--border-focus);
+}
+
+/* BOTÃO: adicionar nova tarefa */
+.add-btn {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.add-btn:hover {
+  background: var(--btn-hover);
+}
+
+.add-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   FILTROS
+   Botões em pílula para alternar visualização das tarefas.
+   ============================================================ */
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.filter-btn {
+  font-size: 13px;
+  font-family: inherit;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition);
+}
+
+.filter-btn:hover {
+  background: #f4f3ef;
+  color: var(--text-primary);
+}
+
+/* Estado ativo: botão de filtro selecionado */
+.filter-btn.active {
+  background: var(--text-primary);
+  color: #ffffff;
+  border-color: var(--text-primary);
+}
+
+/* ============================================================
+   LISTA DE TAREFAS (ul)
+   Cada <li> recebe destaque lateral colorido por prioridade.
+   ============================================================ */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;          /* espaço mínimo para área de lista vazia */
+}
+
+/* Item genérico de tarefa */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-left-width: 4px;    /* borda lateral espessa recebe a cor de prioridade */
+  border-radius: var(--radius-md);
+  transition: opacity var(--transition);
+}
+
+/* ---- Cores de prioridade (borda lateral) ---- */
+
+/* Alta prioridade → borda e badge vermelhos */
+.task-item[data-priority="alta"] {
+  border-left-color: var(--alta-border);
+}
+
+/* Média prioridade → borda e badge âmbar */
+.task-item[data-priority="media"] {
+  border-left-color: var(--media-border);
+}
+
+/* Baixa prioridade → borda e badge verdes */
+.task-item[data-priority="baixa"] {
+  border-left-color: var(--baixa-border);
+}
+
+/* ---- TAREFA CONCLUÍDA ----
+   Combina três indicadores visuais:
+   1. Opacidade reduzida → tom "apagado"
+   2. text-decoration: line-through → texto riscado
+   3. cor mais clara via --text-muted
+   ----------------------------- */
+.task-item.done {
+  opacity: 0.55;
+}
+
+.task-item.done .task-label {
+  text-decoration: line-through;     /* texto riscado */
+  text-decoration-thickness: 1.5px;
+  color: var(--text-muted);          /* cor mais clara */
+}
+
+/* CHECKBOX */
+.task-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: var(--text-primary);
+}
+
+/* TEXTO da tarefa */
+.task-label {
+  flex: 1;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+/* ============================================================
+   BADGES DE PRIORIDADE
+   Pílulas coloridas que identificam visualmente o nível.
+   ============================================================ */
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Badge — Alta */
+.badge-alta {
+  background: var(--alta-bg);
+  color: var(--alta-text);
+}
+
+/* Badge — Média */
+.badge-media {
+  background: var(--media-bg);
+  color: var(--media-text);
+}
+
+/* Badge — Baixa */
+.badge-baixa {
+  background: var(--baixa-bg);
+  color: var(--baixa-text);
+}
+
+/* ============================================================
+   BOTÃO DE EXCLUIR tarefa
+   ============================================================ */
+.del-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: color var(--transition), background var(--transition);
+}
+
+.del-btn:hover {
+  color: var(--alta-text);
+  background: var(--alta-bg);
+}
+
+/* ============================================================
+   ESTADO VAZIO — mensagem quando não há tarefas
+   ============================================================ */
+.empty-msg {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   RODAPÉ — contador e botão de limpeza
+   ============================================================ */
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-default);
+}
+
+/* Contador de tarefas pendentes */
+.counter {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Botão para remover todas as tarefas concluídas */
+.clear-btn {
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition);
+}
+
+.clear-btn:hover {
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   RESPONSIVIDADE — telas pequenas (< 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Empilha input e select na vertical */
+  .add-section {
+    flex-direction: column;
+  }
+
+  .task-input,
+  .priority-select,
+  .add-btn {
+    width: 100%;
+  }
+}
